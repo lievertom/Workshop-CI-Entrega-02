@@ -1,1 +1,16 @@
-# 
+image: docker:stable
+
+services:
+  - docker:dind
+
+variables:
+  CI_REGISTRY_USER: $CI_REGISTRY_USER
+  CI_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
+  CI_REGISTRY: $CI_REGISTRY
+
+build-variable:
+  stage: build
+  script:
+    - echo "$CI_REGISTRY_USER"
+    - echo "$CI_REGISTRY_PASSWORD"
+    - echo "$CI_REGISTRY"
