@@ -7,3 +7,12 @@ before_script:
   - echo "logging into dockerhub"
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   - echo "login successfully"
+
+build-backend:
+  stage: build
+  script:
+    - echo "building backend image"
+    - docker build -f ./backend/Dockerfile -t $CI_REGISTRY_USER/workshop-ci-entrega-02-backend:build_backend ./backend
+    - echo "pushing backend image"
+    - docker push "$CI_REGISTRY_USER/workshop-ci-entrega-02-backend:build_backend"
+    - echo "build and push were successful"
