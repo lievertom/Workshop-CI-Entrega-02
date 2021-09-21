@@ -30,7 +30,7 @@ build-frontend:
     - echo "build and push were successful"
 
 backend-tests:
-  image: docker/compose:stable
+  image: docker/compose
   stage: test
   script:
     - echo 'pulling backend image'
@@ -40,7 +40,7 @@ backend-tests:
     - echo 'backend tests finished'
 
 frontend-tests:
-  image: docker/compose:stable
+  image: docker/compose
   stage: test
   script:
     - echo 'Pulling latest built frontend image from dockerhub.'
