@@ -16,3 +16,12 @@ build-backend:
     - echo "pushing backend image"
     - docker push "$CI_REGISTRY_USER/workshop-ci-entrega-02-backend:latest"
     - echo "build and push were successful"
+
+build-frontend:
+  stage: build
+  script:
+    - echo "building frontend image"
+    - docker build -f ./frontend/Dockerfile -t $CI_REGISTRY_USER/workshop-ci-entrega-02-frontend:latest ./frontend
+    - echo "pushing frontend image"
+    - docker push "$CI_REGISTRY_USER/workshop-ci-entrega-02-frontend:latest"
+    - echo "build and push were successful"
