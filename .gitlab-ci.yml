@@ -12,7 +12,7 @@ build-backend:
   stage: build
   script:
     - echo "building backend image"
-    - docker build -f ./backend/Dockerfile -t $CI_REGISTRY_USER/workshop-ci-entrega-02-backend ./backend
+    - docker build -f ./backend/Dockerfile -t $CI_REGISTRY_USER/workshop-ci-entrega-02-backend:latest ./backend
     - echo "pushing backend image"
-    - docker push "$CI_REGISTRY_USER/workshop-ci-entrega-02-backend"
+    - docker push "$CI_REGISTRY_USER/workshop-ci-entrega-02-backend:latest"
     - echo "build and push were successful"
