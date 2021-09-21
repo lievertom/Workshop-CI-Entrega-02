@@ -6,7 +6,7 @@ services:
 build-backend:
   stage: build
   before_script:
-    - echo "logging into dockerhub"
+    - echo "logging into dockerhub - $CI_REGISTRY_USER"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - echo "login successfully"
   script:
@@ -19,7 +19,7 @@ build-backend:
 build-frontend:
   stage: build
   before_script:
-    - echo "logging into dockerhub"
+    - echo "logging into dockerhub - $CI_REGISTRY_USER"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - echo "login successfully"
   script:
