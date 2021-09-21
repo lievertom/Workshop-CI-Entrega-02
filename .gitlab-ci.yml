@@ -5,7 +5,7 @@ services:
 
 before_script:
   - echo "logging into dockerhub"
-  - echo "$DOCKER_PASSWORD" | docker login --username "$CI_REGISTRY_USER" --password-stdin
+  - echo "$CI_REGISTRY_PASSWORD" | docker login --username $DOCKER_USERNAME --password-stdin
   - echo "login successfully"
 
 build-backend:
