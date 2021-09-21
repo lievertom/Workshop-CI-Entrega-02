@@ -3,13 +3,12 @@ image: docker:stable
 services:
   - docker:dind
 
-before_script:
-  - echo "logging into dockerhub"
-  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  - echo "login successfully"
-
 build-backend:
   stage: build
+  before_script:
+    - echo "logging into dockerhub"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - echo "login successfully"
   script:
     - echo "building backend image"
     - docker build -f ./backend/Dockerfile -t $CI_REGISTRY_USER/workshop-ci-entrega-02-backend:latest ./backend
@@ -19,9 +18,33 @@ build-backend:
 
 build-frontend:
   stage: build
+  before_script:
+    - echo "logging into dockerhub"
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - echo "login successfully"
   script:
     - echo "building frontend image"
     - docker build -f ./frontend/Dockerfile -t $CI_REGISTRY_USER/workshop-ci-entrega-02-frontend:latest ./frontend
     - echo "pushing frontend image"
     - docker push "$CI_REGISTRY_USER/workshop-ci-entrega-02-frontend:latest"
     - echo "build and push were successful"
+
+backend-tests:
+  image: docker/compose:stable
+  stage: test
+  script:
+    - echo 'pulling backend image'
+    - docker pull $CI_REGISTRY_USER/workshop-ci-entrega-02-frontend:latest
+    - echo 'running backend tests.'
+    - docker-compose run --entrypoint "npm run unittest" backend
+    - echo 'backend tests finished'
+
+frontend-tests:
+  image: docker/compose:stable
+  stage: test
+  script:
+    - echo 'Pulling latest built frontend image from dockerhub.'
+    - docker pull $CI_REGISTRY_USER/workshop-ci-entrega-02-frontend:latest
+    - echo 'running frontend tests.'
+    - docker-compose run --entrypoint "npm run test" frontend
+    - echo 'frontend tests finished'
